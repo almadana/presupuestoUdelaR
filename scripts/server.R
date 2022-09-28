@@ -10,7 +10,7 @@
 library(shiny)
 library(tidyverse)
 print(getwd())
-load("datos/apertura_2011.RData")
+load("../../datos/apertura_2011.RData")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
