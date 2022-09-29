@@ -42,16 +42,21 @@ if (ultimo_año_apertura > ultimo_año_ipc) {
   warning(paste("Es necesario actualizar el IPC!! \n Último año IPC: ",ultimo_año_ipc," \n Último año apertura: ",ultimo_año_apertura))
 }
 
-ajusta_IPC <- function(valor,año_origen){
+ajuste_IPC <- function(año_origen){
   if (año_origen == ultimo_año_ipc) {
-    return(valor)
+    return(1)
   }
   else {
     ipc_aplica = ipc %>% filter(año>año_origen,año<=ultimo_año_apertura) %>% pull(acum12meses)
-    ajustado = valor*prod(1+ipc_aplica/100)
+    ajustado = prod(1+ipc_aplica/100)
     return(ajustado)
   }
 }
+apertura_2011 = 
+  apertura_2011 %>% 
+    group_by(año) %>% 
+    mutate(coef_ipc = ajuste_IPC(año[1])) %>% 
+    mutate(across(where(is.numeric),function(x){x*coef_ipc}))
 
 #----------- guardar archivos de datos procesados ----
 save(apertura_2011,file="datos/apertura_2011.RData")

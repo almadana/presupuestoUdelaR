@@ -21,7 +21,8 @@ shinyServer(function(input, output) {
           group_by(año) %>% 
           summarize(total = sum(TOTAL)) %>% 
           ggplot(aes(x=año,y=total)) + 
-          geom_line()
+          geom_line()+
+          scale_y_continuous(limits = c(9000000000,20000000000))
 
         # draw the histogram with the specified number of bins
         show(p)
