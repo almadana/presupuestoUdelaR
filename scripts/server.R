@@ -16,13 +16,18 @@ load("../datos/apertura_2011.RData")
 shinyServer(function(input, output) {
 
     output$distPlot <- renderPlot({
-
+        colElegida = input$selectorColumna
+        print(colElegida)
         p = apertura_2011 %>% 
           group_by(año) %>% 
-          summarize(total = sum(TOTAL)) %>% 
-          ggplot(aes(x=año,y=total)) + 
+          #elegir la columna que matchea exactamente el nombre del selector
+          summarize(across(matches(paste0("^",colElegida,"$")),sum,.names="columnaElegida")) %>% 
+          ggplot(aes(x=año,y=columnaElegida)) + 
           geom_line()+
-          scale_y_continuous(limits = c(9000000000,20000000000))
+          theme(text=element_text(size=16))+
+          labs(x="Año",y=colElegida,
+               title=paste0("Evolución de la apertura en el rubro ",colElegida),
+               subtitle="Pesos constantes corregidos por IPC")
 
         # draw the histogram with the specified number of bins
         show(p)

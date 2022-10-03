@@ -13,21 +13,23 @@ library(shiny)
 shinyUI(fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Visualizador de datos de presupuesto - UdelaR"),
 
     # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+    fluidRow(
+        column(4,
+          selectInput("selectorColumna","Rubro",
+                      c("Sueldos docentes"="SUELDOS.DOCENTES","Sueldos no docentes"="SUELDOS.NO.DOCENTES","Sueldos otros"="OTROS","Sueldos total"="TOTAL.SUELDOS",
+                        "Gastos"="GASTOS","Suministros"="SUMINISTROS","Inversiones"="INVERSIONES","Total"="TOTAL"
+                        ),
+                      selected = "TOTAL")
         ),
 
         # Show a plot of the generated distribution
-        mainPanel(
+        fluidRow(
+          column(8,
             plotOutput("distPlot")
+          )
         )
     )
 ))
