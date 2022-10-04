@@ -24,12 +24,20 @@ shinyUI(fluidPage(
                         ),
                       selected = "TOTAL")
         ),
+        column(4,
+          checkboxGroupInput("checkPrograma", label="Programa",
+            c("Todos","347","348","349","350","351","352","353"),    
+            "Todos", F)
+        )
+    ),
 
         # Show a plot of the generated distribution
         fluidRow(
-          column(8,
+          column(2,
+                 uiOutput("filtroServicio")),
+          column(6,
             plotOutput("distPlot")
           )
         )
     )
-))
+)
